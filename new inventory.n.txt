@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judicial Service ICT Inventory</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background:
+    linear-gradient(rgba(8,25,45,.88),rgba(8,25,45,.88)),
+    url("https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=85");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #222;
+}
+
+header {
+    background: #102b4e;
+    color: white;
+    text-align: center;
+    padding: 25px 10px;
+    border-bottom: 5px solid #c49a42;
+}
+
+header h1 {
+    font-size: 27px;
+    margin-bottom: 8px;
+}
+
+header p {
+    margin: 5px;
+    font-size: 14px;
+}
+
+.container {
+    width: 96%;
+    max-width: 1500px;
+    margin: 25px auto;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #c49a42;
+    box-shadow: 0 3px 10px #0003;
+}
+
+.card h3 {
+    color: #555;
+    font-size: 14px;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #102b4e;
+    margin-top: 10px;
+}
+
+.section {
+    background: white;
+    padding: 22px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 10px #0003;
+}
+
+.section h2 {
+    color: #102b4e;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #c49a42;
+    padding-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+}
+
+input:focus {
+    outline: 1px solid #102b4e;
+}
+
+.equipment-inputs {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.equipment-box {
+    background: #f1f4f8;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.equipment-box h4 {
+    color: #102b4e;
+    margin-bottom: 12px;
+}
+
+.equipment-box input {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 11px 17px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.add-btn {
+    background: #102b4e;
+    color: white;
+}
+
+.print-btn {
+    background: #c49a42;
+    color: black;
+}
+
+.edit-btn {
+    background: #1976d2;
+    color: white;
+    padding: 7px;
+    margin: 2px;
+}
+
+.delete-btn {
+    background: #c62828;
+    color: white;
+    padding: 7px;
+    margin: 2px;
+}
+
+.cancel-btn {
+    background: #777;
+    color: white;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.search {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+}
+
+th,td {
+    border: 1px solid #ccc;
+    padding: 10px 7px;
+    text-align: center;
+    font-size: 12px;
+}
+
+thead th {
+    background: #102b4e;
+    color: white;
+}
+
+thead .group-heading {
+    background: #c49a42;
+    color: #111;
+}
+
+tbody tr:nth-child(even) {
+    background: #f1f4f8;
+}
+
+.working {
+    color: green;
+    font-weight: bold;
+}
+
+.not-working {
+    color: red;
+    font-weight: bold;
+}
+
+.total-row {
+    background: #e5edf7 !important;
+    font-weight: bold;
+}
+
+footer {
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+@media(max-width:900px) {
+    .dashboard {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .equipment-inputs {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:550px) {
+    .form-grid, .equipment-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+}
+
+/* PRINT DESIGN */
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 10mm;
+    }
+
+    body {
+        background: white !important;
+        color: black;
+    }
+
+    header {
+        background: white !important;
+        color: black;
+        border-bottom: 3px solid black;
+    }
+
+    .section {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .entry-section,
+    .dashboard,
+    .search,
+    .action-column,
+    .print-btn,
+    footer {
+        display: none !important;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+    }
+
+    table {
+        min-width: 0;
+        width: 100%;
+    }
+
+    th,td {
+        font-size: 9px;
+        padding: 6px 3px;
+        border: 1px solid black;
+        color: black;
+    }
+
+    thead th {
+        background: #ddd !important;
+        color: black !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .total-row {
+        background: #eee !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>JUDICIAL SERVICE OF GHANA</h1>
+    <p>INFORMATION TECHNOLOGY DEPARTMENT</p>
+    <p>COURTROOM ICT EQUIPMENT INVENTORY MANAGEMENT SYSTEM</p>
+</header>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+
+<div class="dashboard">
+
+    <div class="card">
+        <h3>Total Courtrooms</h3>
+        <p id="courtTotal">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Equipment</h3>
+        <p id="equipmentTotal">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Working Equipment</h3>
+        <p id="workingTotal">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Not Working</h3>
+        <p id="faultyTotal">0</p>
+    </div>
+
+</div>
+
+
+<!-- ADD COURTROOM -->
+
+<div class="section entry-section">
+
+<h2 id="formTitle">Add Courtroom Inventory</h2>
+
+<form id="inventoryForm">
+
+<div class="form-grid">
+
+    <div>
+        <label>COURT-ROOM FLOOR </label>
+        <input type="text" id="court" placeholder="e.g. 1ST FLOOR" required>
+    </div>
+
+    <div>
+        <label>COURT-ROOM NAME </label>
+        <input type="text" id="room" placeholder="e.g. Courtroom 1" required>
+    </div>
+
+    <div>
+        <label>DATE OF INSPECTION</label>
+        <input type="date" id="date" required>
+    </div>
+
+</div>
+
+<h3 style="margin-top:25px;color:#102b4e;">
+Equipment Quantity and Status
+</h3>
+
+<p style="font-size:13px;margin-top:7px;">
+Enter the number of equipment items working and not working.
+</p>
+
+<div class="equipment-inputs">
+
+    <div class="equipment-box">
+        <h4>System Units</h4>
+        <label>Working</label>
+        <input type="number" id="suW" min="0" value="0" required>
+        <label>Not Working</label>
+        <input type="number" id="suF" min="0" value="0" required>
+    </div>
+
+    <div class="equipment-box">
+        <h4>Printers</h4>
+        <label>Working</label>
+        <input type="number" id="prW" min="0" value="0" required>
+        <label>Not Working</label>
+        <input type="number" id="prF" min="0" value="0" required>
+    </div>
+
+    <div class="equipment-box">
+        <h4>Monitors</h4>
+        <label>Working</label>
+        <input type="number" id="moW" min="0" value="0" required>
+        <label>Not Working</label>
+        <input type="number" id="moF" min="0" value="0" required>
+    </div>
+
+    <div class="equipment-box">
+        <h4>Laptops</h4>
+        <label>Working</label>
+        <input type="number" id="laW" min="0" value="0" required>
+        <label>Not Working</label>
+        <input type="number" id="laF" min="0" value="0" required>
+    </div>
+
+</div>
+
+<button type="submit" class="add-btn" id="saveBtn">
+    + Save Courtroom Inventory
+</button>
+
+<button type="button" class="cancel-btn" id="cancelBtn"
+style="display:none" onclick="cancelEdit()">
+    Cancel Edit
+</button>
+
+</form>
+</div>
+
+
+<!-- INVENTORY TABLE -->
+
+<div class="section">
+
+<h2>COURTROOM EQUIPMENT INVENTORY REGISTER</h2>
+
+<input type="text" id="search" class="search"
+placeholder="Search court name or courtroom...">
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+    <th rowspan="2">No.</th>
+    <th rowspan="2">Court Location</th>
+    <th rowspan="2">Courtroom</th>
+
+    <th colspan="3" class="group-heading">System Units</th>
+    <th colspan="3" class="group-heading">Printers</th>
+    <th colspan="3" class="group-heading">Monitors</th>
+    <th colspan="3" class="group-heading">Laptops</th>
+
+    <th rowspan="2">Total Equipment</th>
+    <th rowspan="2">Total Working</th>
+    <th rowspan="2">Total Not Working</th>
+    <th rowspan="2">Inspection Date</th>
+    <th rowspan="2" class="action-column">Actions</th>
+</tr>
+
+<tr>
+    <th>W</th><th>NW</th><th>Total</th>
+    <th>W</th><th>NW</th><th>Total</th>
+    <th>W</th><th>NW</th><th>Total</th>
+    <th>W</th><th>NW</th><th>Total</th>
+</tr>
+
+</thead>
+
+<tbody id="inventoryBody"></tbody>
+
+<tfoot id="tableFooter"></tfoot>
+
+</table>
+
+</div>
+
+<button class="print-btn" onclick="printInventory()">
+    PRINT INVENTORY
+</button>
+
+</div>
+
+</div>
+
+<footer>
+<p>Judicial Service of Ghana | ICT Department</p>
+<p>ICT Equipment Inventory Management System</p>
+</footer>
+
+
+<script>
+
+// INVENTORY STORAGE
+
+let records = JSON.parse(
+    localStorage.getItem("courtInventory")
+) || [];
+
+let editingIndex = null;
+
+
+// GET FORM VALUES
+
+function getValue(id) {
+    return Math.max(0, Number(document.getElementById(id).value) || 0);
+}
+
+
+// SAVE OR UPDATE
+
+document.getElementById("inventoryForm")
+.addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    const record = {
+
+        court: document.getElementById("court").value.trim(),
+        room: document.getElementById("room").value.trim(),
+        date: document.getElementById("date").value,
+
+        suW: getValue("suW"),
+        suF: getValue("suF"),
+
+        prW: getValue("prW"),
+        prF: getValue("prF"),
+
+        moW: getValue("moW"),
+        moF: getValue("moF"),
+
+        laW: getValue("laW"),
+        laF: getValue("laF")
+
+    };
+
+    const duplicate = records.some((r, i) =>
+        r.court.toLowerCase() === record.court.toLowerCase() &&
+        r.room.toLowerCase() === record.room.toLowerCase() &&
+        i !== editingIndex
+    );
+
+    if (duplicate) {
+        alert("This courtroom already has an inventory record. Edit the existing record instead.");
+        return;
+    }
+
+    if (editingIndex !== null) {
+        records[editingIndex] = record;
+    } else {
+        records.push(record);
+    }
+
+    saveData();
+    this.reset();
+    cancelEdit();
+    displayRecords();
+
+});
+
+
+// SAVE DATA
+
+function saveData() {
+    localStorage.setItem("courtInventory", JSON.stringify(records));
+}
+
+
+// CALCULATE TOTALS
+
+function calculate(r) {
+
+    let working = r.suW + r.prW + r.moW + r.laW;
+
+    let faulty = r.suF + r.prF + r.moF + r.laF;
+
+    return {
+        working: working,
+        faulty: faulty,
+        total: working + faulty,
+
+        suTotal: r.suW + r.suF,
+        prTotal: r.prW + r.prF,
+        moTotal: r.moW + r.moF,
+        laTotal: r.laW + r.laF
+    };
+
+}
+
+
+// DISPLAY RECORDS
+
+function displayRecords() {
+
+    const tbody = document.getElementById("inventoryBody");
+
+    tbody.innerHTML = "";
+
+    const query = document.getElementById("search")
+    .value.toLowerCase();
+
+    let filtered = records.map((r,index) => ({
+        ...r,
+        originalIndex: index
+    })).filter(r =>
+        r.court.toLowerCase().includes(query) ||
+        r.room.toLowerCase().includes(query)
+    );
+
+    let grand = {
+        suW:0,suF:0,suTotal:0,
+        prW:0,prF:0,prTotal:0,
+        moW:0,moF:0,moTotal:0,
+        laW:0,laF:0,laTotal:0,
+        working:0,faulty:0,total:0
+    };
+
+    filtered.forEach((r,index) => {
+
+        const t = calculate(r);
+
+        let values = [
+            index+1,
+            r.court,
+            r.room,
+
+            r.suW,r.suF,t.suTotal,
+            r.prW,r.prF,t.prTotal,
+            r.moW,r.moF,t.moTotal,
+            r.laW,r.laF,t.laTotal,
+
+            t.total,t.working,t.faulty,r.date
+        ];
+
+        const tr = document.createElement("tr");
+
+        values.forEach((value,i) => {
+
+            const td = document.createElement("td");
+            td.textContent = value;
+
+            if ([3,6,9,12,16].includes(i)) {
+                td.className = "working";
+            }
+
+            if ([4,7,10,13,17].includes(i)) {
+                td.className = "not-working";
+            }
+
+            tr.appendChild(td);
+
+        });
+
+        const actions = document.createElement("td");
+        actions.className = "action-column";
+
+        const edit = document.createElement("button");
+        edit.textContent = "Edit";
+        edit.className = "edit-btn";
+        edit.onclick = () => editRecord(r.originalIndex);
+
+        const del = document.createElement("button");
+        del.textContent = "Delete";
+        del.className = "delete-btn";
+        del.onclick = () => deleteRecord(r.originalIndex);
+
+        actions.appendChild(edit);
+        actions.appendChild(del);
+
+        tr.appendChild(actions);
+
+        tbody.appendChild(tr);
+
+        // GRAND TOTALS
+
+        grand.suW += r.suW;
+        grand.suF += r.suF;
+        grand.suTotal += t.suTotal;
+
+        grand.prW += r.prW;
+        grand.prF += r.prF;
+        grand.prTotal += t.prTotal;
+
+        grand.moW += r.moW;
+        grand.moF += r.moF;
+        grand.moTotal += t.moTotal;
+
+        grand.laW += r.laW;
+        grand.laF += r.laF;
+        grand.laTotal += t.laTotal;
+
+        grand.working += t.working;
+        grand.faulty += t.faulty;
+        grand.total += t.total;
+
+    });
+
+    // TOTAL ROW
+
+    const footer = document.getElementById("tableFooter");
+    footer.innerHTML = "";
+
+    const totalRow = document.createElement("tr");
+    totalRow.className = "total-row";
+
+    const totalValues = [
+        "", "GRAND TOTAL", "",
+        grand.suW,grand.suF,grand.suTotal,
+        grand.prW,grand.prF,grand.prTotal,
+        grand.moW,grand.moF,grand.moTotal,
+        grand.laW,grand.laF,grand.laTotal,
+        grand.total,grand.working,grand.faulty,
+        "",""
+    ];
+
+    totalValues.forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = value;
+        totalRow.appendChild(td);
+    });
+
+    footer.appendChild(totalRow);
+
+    updateDashboard();
+
+}
+
+
+// DASHBOARD TOTALS
+
+function updateDashboard() {
+
+    let totalWorking = 0;
+    let totalFaulty = 0;
+    let totalEquipment = 0;
+
+    records.forEach(r => {
+
+        const t = calculate(r);
+
+        totalWorking += t.working;
+        totalFaulty += t.faulty;
+        totalEquipment += t.total;
+
+    });
+
+    document.getElementById("courtTotal").textContent =
+    records.length;
+
+    document.getElementById("equipmentTotal").textContent =
+    totalEquipment;
+
+    document.getElementById("workingTotal").textContent =
+    totalWorking;
+
+    document.getElementById("faultyTotal").textContent =
+    totalFaulty;
+
+}
+
+
+// EDIT RECORD
+
+function editRecord(index) {
+
+    const r = records[index];
+
+    document.getElementById("court").value = r.court;
+    document.getElementById("room").value = r.room;
+    document.getElementById("date").value = r.date;
+
+    ["suW","suF","prW","prF","moW","moF","laW","laF"]
+    .forEach(id => {
+        document.getElementById(id).value = r[id];
+    });
+
+    editingIndex = index;
+
+    document.getElementById("formTitle").textContent =
+    "Edit Courtroom Inventory";
+
+    document.getElementById("saveBtn").textContent =
+    "Update Inventory";
+
+    document.getElementById("cancelBtn").style.display =
+    "inline-block";
+
+    document.getElementById("inventoryForm")
+    .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+// CANCEL EDIT
+
+function cancelEdit() {
+
+    editingIndex = null;
+
+    document.getElementById("inventoryForm").reset();
+
+    document.getElementById("formTitle").textContent =
+    "Add Courtroom Inventory";
+
+    document.getElementById("saveBtn").textContent =
+    "+ Save Courtroom Inventory";
+
+    document.getElementById("cancelBtn").style.display =
+    "none";
+
+}
+
+
+// DELETE RECORD
+
+function deleteRecord(index) {
+
+    if(confirm("Delete this courtroom inventory record?")) {
+
+        records.splice(index,1);
+
+        saveData();
+        displayRecords();
+
+    }
+
+}
+
+
+// SEARCH
+
+document.getElementById("search")
+.addEventListener("input", displayRecords);
+
+
+// PRINT
+
+function printInventory() {
+
+    window.print();
+
+}
+
+
+// INITIAL DISPLAY
+
+displayRecords();
+
+</script>
+
+</body>
+</html>
